@@ -1,56 +1,62 @@
-import socket  # Herramienta para crear la conexión
-import threading # Herramienta para hacer dos cosas a la vez: escuchar y escribir
+# client.py
+import socket
+import threading
+import ssl  # 1. Importar SSL
 
-# 1. Pedimos al usuario que elija un apodo antes de conectarse
 NICKNAME = input("Elige tu apodo: ")
 
-# 2. Creamos el socket del cliente
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# Intentamos conectarnos a la "dirección de la oficina de correos"
+# 2. Configurar el contexto SSL del cliente
+context = ssl.create_default_context()
+# ¡¡ADVERTENCIA!! Esto es necesario para un cert autofirmado
+# En un entorno real, NUNCA harías esto.
+context.check_hostname = False
+context.verify_mode = ssl.CERT_NONE
+
+HOST = '127.0.0.1'
+PORT = 65432
+
+# 3. Creamos el socket normal
+client_raw = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# 4. "Envolvemos" el socket con SSL ANTES de conectarnos
+# server_hostname debe coincidir con el "Common Name" que pusiste en el cert
+client = context.wrap_socket(client_raw, server_hostname=HOST)
+
 try:
-    client.connect(('127.0.0.1', 65432))
+    # 5. Nos conectamos con el socket seguro
+    client.connect((HOST, PORT))
 except ConnectionRefusedError:
     print("Error: No se pudo conectar. Asegúrate de que el servidor esté encendido.")
     exit()
+except ssl.SSLError as e:
+    print(f"Error de SSL al conectar: {e}")
+    print("Asegúrate de que el servidor esté usando un certificado válido.")
+    exit()
 
-# 3. Función "El Oído": Se dedica solo a escuchar mensajes del servidor
 def receive_messages():
     while True:
         try:
-            # Espera a recibir un mensaje del servidor
             message = client.recv(1024).decode('utf-8')
             if message == 'NICK':
-                # Si el servidor nos pide el apodo, se lo enviamos
                 client.send(NICKNAME.encode('utf-8'))
             else:
-                # Si es un mensaje normal, lo imprimimos en la pantalla
                 print(message)
         except:
-            # Si hay un error, es que nos desconectamos del servidor
             print("¡Se ha perdido la conexión con el servidor!")
             client.close()
             break
 
-# 4. Función "La Boca": Se dedica solo a enviar los mensajes que escribimos
 def write_messages():
     while True:
-        # Espera a que el usuario escriba algo y presione Enter
-        message = f'{NICKNAME}: {input("")}'
+        message = input("")
         try:
-            # Envía el mensaje formateado al servidor
             client.send(message.encode('utf-8'))
         except:
-            # Si falla el envío, salimos del bucle
             print("Error al enviar el mensaje.")
             break
 
-# 5. Creamos y encendemos los dos "empleados" (hilos) del cliente
-# Uno para escuchar y otro para escribir. Así podemos hacer ambas cosas a la vez.
-
-# Creamos el hilo "Oído"
 receive_thread = threading.Thread(target=receive_messages)
-receive_thread.start() # El oído empieza a escuchar
+receive_thread.start()
 
-# Creamos el hilo "Boca"
 write_thread = threading.Thread(target=write_messages)
-write_thread.start() # La boca está lista para que escribas
+write_thread.start()
