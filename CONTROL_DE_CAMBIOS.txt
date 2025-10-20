@@ -1,0 +1,40 @@
+================================
+    DOCUMENTO DE CONTROL DE CAMBIOS
+================================
+
+Este documento registra los cambios significativos en el proyecto 
+y el hash MD5 de los archivos principales en cada versión para
+asegurar su integridad.
+
+---------------------------------------------------
+VERSIÓN: 1.0 - "Implementación de Seguridad SSL/TLS"
+---------------------------------------------------
+* FECHA: 19/10/2025
+* AUTOR: Pichardo Nava Johanna Montserrat
+
+* CAMBIOS:
+    * Se implementó el módulo `ssl` en `server.py` y `client.py`.
+    * El servidor ahora carga un `cert.pem` y `key.pem`.
+    * El cliente se conecta usando un contexto SSL, verificando el servidor.
+    * Toda la comunicación (nicks, mensajes, desconexiones) está ahora cifrada.
+    * Se añadió `.gitignore` para ignorar los archivos `.pem`.
+    * Se corrigió el formato de mensajes para que el servidor añada el nick (Refactor).
+
+* HASHES DE INTEGRIDAD (MD5):
+    * server.py: [Pega aquí el hash MD5 de tu server.py actual]
+    * client.py: [Pega aquí el hash MD5 de tu client.py actual]
+
+---------------------------------------------------
+VERSIÓN: 0.1 - "Chat Básico Funcional"
+---------------------------------------------------
+* AUTOR: Pichardo Nava Johanna Montserrat
+
+* CAMBIOS:
+    * Creación inicial del `server.py` con sockets y threading.
+    * Creación inicial del `client.py` con hilos de lectura/escritura.
+    * Funcionalidad básica de broadcast y manejo de nicknames.
+    * Comunicación en texto plano (sin seguridad).
+
+* HASHES DE INTEGRIDAD (MD5):
+    * server.py: 960bbd172e40a170c14ffc976b8604b9
+    * client.py: e32e3439c4825f88ac754b705d92ff5a 
