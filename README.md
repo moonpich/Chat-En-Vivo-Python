@@ -1,44 +1,31 @@
-# 🚀 Chat Seguro en Python con SSL/TLS
+# 🔒 ChatDev: Sistema de Gestión Segura de Documentos y Firmas
 
-Este es un proyecto de un chat en vivo multicliente, programado en Python, que utiliza la biblioteca `ssl` para asegurar toda la comunicación.
+Este repositorio contiene la lógica backend de una aplicación enfocada en la **seguridad de documentos**, **firmas digitales** y la **simulación de almacenamiento** en la nube.
 
-El chat implementa un **cifrado híbrido** (asimétrico para el *handshake* inicial y simétrico para los mensajes) para garantizar la confidencialidad, integridad y autenticidad de la conexión.
-
----
-
-## 🛠️ Características
-
-* **Chat Multicliente:** Múltiples usuarios pueden conectarse y chatear simultáneamente.
-* **Seguridad SSL/TLS:** Toda la comunicación está cifrada.
-    * **Cifrado Asimétrico (RSA):** Se usa para el *handshake* inicial y la negociación segura de la clave de sesión.
-    * **Cifrado Simétrico (AES):** Se usa para cifrar todos los mensajes del chat una vez la conexión es segura.
-* **Manejo de Apodos (Nicknames):** Cada usuario se identifica con un apodo único.
-* **Notificaciones de Sistema:** Mensajes automáticos cuando un usuario se une o abandona el chat.
-* **Multihilo (Threading):** El servidor usa hilos para manejar a cada cliente de forma independiente, y el cliente usa hilos para escuchar y escribir al mismo tiempo.
+Utiliza Python para manejar la lógica del negocio, bases de datos para la persistencia de metadatos y criptografía para la gestión de claves y la integridad de la información.
 
 ---
 
-## 💻 Tecnologías Utilizadas
+## 🌟 Características Principales
 
-* **Python 3**
-* **Módulo `socket`:** Para las conexiones de red base.
-* **Módulo `threading`:** Para la concurrencia.
-* **Módulo `ssl`:** Para "envolver" los sockets con cifrado.
-* **OpenSSL:** Para la generación de los certificados (llave pública/privada).
+* **Firma Digital (PKI):** Implementación de lógica de firma digital utilizando claves `.pem` y `.crt` almacenadas en el directorio `keys/`.
+* **Gestión de Datos:** Manejo de metadatos de documentos y transacciones a través de `database.py`.
+* **Simulación de Almacenamiento:** Directorio `GOOGLE_DRIVE_SIM/` para simular la persistencia de archivos subidos.
+* **Verificación de Integridad:** Uso de hashes MD5 (`generate_md5.py`) para verificar que los archivos no han sido alterados.
+* **Servicio Web:** Punto de entrada principal (`main.py`) para la interacción vía web (HTML/APIs).
 
 ---
 
-## ⚙️ Instalación y Puesta en Marcha
+## ⚙️ Instalación y Configuración
 
-Sigue estos pasos para ejecutar el proyecto en tu máquina local.
+Sigue estos pasos para configurar y ejecutar el proyecto localmente.
 
-### 1. Prerrequisitos
+### 1. Requisitos
 
-* Tener **Python 3** instalado.
-* Tener **OpenSSL** instalado (viene por defecto en Linux/macOS; en Windows puedes usar Git Bash o WSL).
+Asegúrate de tener **Python 3.10+** instalado.
 
 ### 2. Clonar el Repositorio
 
 ```bash
-git clone [https://github.com/TU_USUARIO/TU_REPOSITORIO.git](https://github.com/TU_USUARIO/TU_REPOSITORIO.git)
-cd TU_REPOSITORIO
+git clone [https://docs.github.com/es/repositories/creating-and-managing-repositories/quickstart-for-repositories](https://docs.github.com/es/repositories/creating-and-managing-repositories/quickstart-for-repositories)
+cd ChatDev
